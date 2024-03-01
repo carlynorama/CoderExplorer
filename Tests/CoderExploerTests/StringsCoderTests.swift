@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-@testable import CoderExploer
+@testable import CoderExplorer
 
 
 

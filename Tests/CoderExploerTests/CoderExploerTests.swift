@@ -1,7 +1,7 @@
 import XCTest
-@testable import CoderExploer
+@testable import CoderExplorer
 
-final class CoderExploerTests: XCTestCase {
+final class CoderExplorerTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

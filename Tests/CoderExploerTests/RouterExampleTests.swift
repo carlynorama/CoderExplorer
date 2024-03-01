@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import CoderExploer
+@testable import CoderExplorer
 
 final class CodableRoutingTests: XCTestCase {
     func testExample() throws {
