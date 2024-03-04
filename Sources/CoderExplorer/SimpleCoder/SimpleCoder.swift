@@ -9,7 +9,7 @@ import Foundation
 
 
 struct SimpleCoder {
-    static public func encode(_ value: Encodable) throws -> String {
+    public func encode(_ value: Encodable) throws -> String {
         let encoder = _SimpleEncoder()
         try value.encode(to: encoder)
         return encoder.value
@@ -32,7 +32,7 @@ struct _SimpleEncoder {
     
     var value:String {
         var lines = data.storage.map { key, value in
-            if key.isEmpty {
+            if key.isEmpty || key.contains("keyless"){
                 return "\(value)"
             } else {
                 return "\(key):\(value)"
@@ -78,7 +78,7 @@ extension _SimpleEncoder:Encoder {
     }
     
     func singleValueContainer() -> SingleValueEncodingContainer {
-        fatalError()
+        SimpleCoderSVEC(encoder: self)
     }
     
     

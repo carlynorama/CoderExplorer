@@ -38,12 +38,7 @@ extension SimpleCoderUEC {
         }
         try _appendValue(validatedValue.description)
     }
-}
-
-extension SimpleCoderUEC: UnkeyedEncodingContainer {
-
-    var codingPath: [any CodingKey] { encoder.codingPath }
-
+    
     private mutating func nextIndexedKey() -> CodingKey {
         let nextCodingKey = IndexedCodingKey(intValue: count)!
         count += 1
@@ -63,6 +58,11 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
             return nil
         }
     }
+}
+
+extension SimpleCoderUEC: UnkeyedEncodingContainer {
+
+    var codingPath: [any CodingKey] { encoder.codingPath }
 
     func nestedUnkeyedContainer() -> any UnkeyedEncodingContainer { encoder.unkeyedContainer() }
 
