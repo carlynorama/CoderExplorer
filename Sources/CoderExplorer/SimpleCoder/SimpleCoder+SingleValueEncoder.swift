@@ -7,23 +7,6 @@
 
 import Foundation
 
-
-//===----------------------------------------------------------------------===//
-//
-// This source file is part of the SwiftOpenAPIGenerator open source project
-//
-// Copyright (c) 2023 Apple Inc. and the SwiftOpenAPIGenerator project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE.txt for license information
-// See CONTRIBUTORS.txt for the list of SwiftOpenAPIGenerator project authors
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-//===----------------------------------------------------------------------===//
-
-import Foundation
-
 /// A single value container used by `URIValueToNodeEncoder`.
 struct SimpleCoderSVEC {
 
@@ -33,21 +16,12 @@ struct SimpleCoderSVEC {
 
 extension SimpleCoderSVEC {
 
-    /// Sets the provided primitive value to the underlying node.
-    /// - Parameter node: The primitive value to set.
-    /// - Throws: An error if setting the primitive value to the underlying node fails.
     private func _setValue(_ converted:String) throws { try try encoder.encode(converted, forKey: SVECCodingKey(converted)) }
 
-    /// Sets the provided value to the underlying node.
-    /// - Parameter value: The value to set.
-    /// - Throws: An error if setting the value to the underlying node fails
     private func _setBinaryFloatingPoint(_ value: some BinaryFloatingPoint) throws {
         try _setValue(Double(value).description)
     }
 
-    /// Sets the provided value to the underlying node.
-    /// - Parameter value: The value to set.
-    /// - Throws: An error if setting the value to the underlying node fails
     private func _setFixedWidthInteger(_ value: some FixedWidthInteger) throws {
         guard let validatedValue = Int(exactly: value) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: "Integer out of range."))
