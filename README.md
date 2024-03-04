@@ -6,6 +6,9 @@ A place to finally learn about custom encoders and decoders.
 
 To work on this package I primarily used 3 resources, duplicating them line by line. No copy-paste. Xcode does a ton of providing missing code to be in compliance so that was less tedious than one may think. Some of the variable names will be changed from the example code. This is on purpose to make sure I don't start copy pasting and that I really do under stand what is connected to what.
 
+- https://forums.swift.org/t/future-of-codable-and-json-coders-in-swift-6-hoping-for-a-rework/69542
+- https://forums.swift.org/t/serialization-in-swift/46641
+
 ### StackOverflow 45169254
 
 - https://stackoverflow.com/questions/45169254/custom-swift-encoder-decoder-for-the-strings-resource-format
@@ -29,16 +32,19 @@ Very good video on making a router coder from an enum.
 
 ### JSONEncoder
 
-#### Calssic
+#### 5.10
 - https://github.com/apple/swift-corelibs-foundation/blob/main/Docs/Proposals/0001-jsonencoder-key-strategy.md?plain=1
 - https://github.com/apple/swift-corelibs-foundation/blob/release/5.10/Sources/Foundation/JSONEncoder.swift
 - https://github.com/apple/swift-corelibs-foundation/blob/release/5.10/Tests/Foundation/Tests/TestJSONEncoder.swift
 - https://github.com/apple/swift-corelibs-foundation/blob/release/5.10/Tests/Foundation/Tests/TestJSONSerialization.swift
 - https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/JSONSerialization.swift#L629
 
+- https://github.com/apple/swift/blob/48e65c6f8ca1a2a902df40c51173fc603b1611e2/stdlib/public/core/Codable.swift#L47
+
 #### FoundationEssentials Version & Darwin/Foundation-swiftoverlay Version
 - https://github.com/apple/swift-foundation/blob/main/Sources/FoundationEssentials/JSON/JSONEncoder.swift#L629
-https://github.com/apple/swift-corelibs-foundation/blob/7d40966ed21dc39846103a429f84f426be1f28da/Darwin/Foundation-swiftoverlay/JSONEncoder.swift#L448
+- https://github.com/apple/swift-foundation/blob/14815845f3531505311e9ae30e66055a46a4eb12/Sources/FoundationEssentials/CodableWithConfiguration.swift#L20
+- https://github.com/apple/swift-corelibs-foundation/blob/7d40966ed21dc39846103a429f84f426be1f28da/Darwin/Foundation-swiftoverlay/JSONEncoder.swift#L448
 
 #### Evolution Talk
 - https://github.com/search?q=repo%3Aapple%2Fswift-evolution%20Encoder&type=code
@@ -66,6 +72,8 @@ That got ripped apart and turned into the first LineCoder. Then I found the one 
 
 - https://github.com/search?q=org%3Aapple%20mutating%20func%20nestedContainer%3CNestedKey%3E(keyedBy%20keyType%3A%20NestedKey.Type%2C%20forKey%20key%3A%20Key)%20-%3E%20KeyedEncodingContainer%3CNestedKey%3E%20where%20NestedKey&type=code
 - https://github.com/apple/swift-openapi-runtime/tree/release/0.2.x/Sources/OpenAPIRuntime/URICoder
+- https://github.com/apple/swift-http-structured-headers/blob/main/Sources/StructuredFieldValues/
+- https://github.com/apple/swift-http-structured-headers/
 
 
 

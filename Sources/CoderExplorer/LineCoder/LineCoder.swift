@@ -122,6 +122,8 @@ struct LMBasic:LineEncoderProtocol {
     
     var encoderMaker:(CodingKey?) -> Self { getEncoder }
     
+
+    
     
     //compare JSONEncoder.swift 235.
     func encode<T: Encodable>(_ value: T) async throws -> Output {
@@ -868,28 +870,40 @@ extension LineEncoderIKUEC {
 
 
 //internal struct _LCKey: CodingKey {
-//    public var stringValue: String
-//    public var intValue: Int?
-//
-//    public init?(stringValue: String) {
-//        self.stringValue = stringValue
-//        self.intValue = nil
+//    var stringValue: String
+//    
+//    init?(stringValue: String) {
+//        <#code#>
 //    }
-//
-//    public init?(intValue: Int) {
-//        self.stringValue = "\(intValue)"
-//        self.intValue = intValue
+//    
+//    var intValue: Int?
+//    
+//    init?(intValue: Int) {
+//        <#code#>
 //    }
-//
-//    public init(stringValue: String, intValue: Int?) {
-//        self.stringValue = stringValue
-//        self.intValue = intValue
-//    }
-//
-//    internal init(index: Int) {
-//        self.stringValue = "Index \(index)"
-//        self.intValue = index
-//    }
-//
-//    internal static let `super` = _LCKey(stringValue: "super")!
+//    
+////    public var stringValue: String
+////    public var intValue: Int?
+////
+////    public init?(stringValue: String) {
+////        self.stringValue = stringValue
+////        self.intValue = nil
+////    }
+////
+////    public init?(intValue: Int) {
+////        self.stringValue = "\(intValue)"
+////        self.intValue = intValue
+////    }
+////
+////    public init(stringValue: String, intValue: Int?) {
+////        self.stringValue = stringValue
+////        self.intValue = intValue
+////    }
+////
+////    internal init(index: Int) {
+////        self.stringValue = "Index \(index)"
+////        self.intValue = index
+////    }
+////
+////    internal static let `super` = _LCKey(stringValue: "super")!
 //}
