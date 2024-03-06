@@ -18,8 +18,8 @@ struct SimpleCoder {
 }
 
 
-class SimpleCoderData<Value> {
-    var storage:Value    
+final class SimpleCoderData<Value> {
+    var storage:Value
     
     init(_ value: Value) {
         self.storage = value
