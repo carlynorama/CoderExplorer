@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SimpleCoder+UnkeyedEncoder.swift
 //  
 //
 //  Created by Carlyn Maw on 3/4/24.
@@ -21,22 +21,30 @@ extension SimpleCoderUEC {
         try encoder.encode(converted, forKey: nextIndexedKey())
     }
 
-
     /// Appends the provided value as a node to the underlying array.
     /// - Parameter value: The value to append.
     /// - Throws: An error if appending the node to the underlying array fails.
     private mutating func _appendBinaryFloatingPoint(_ value: some BinaryFloatingPoint) throws {
-        try _appendValue(Double(value).description)
+        try _appendValue(encoder.convert(value))
     }
 
     /// Appends the provided value as a node to the underlying array.
     /// - Parameter value: The value to append.
     /// - Throws: An error if appending the node to the underlying array fails.
     private mutating func _appendFixedWidthInteger(_ value: some FixedWidthInteger) throws {
-        guard let validatedValue = Int(exactly: value) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: "Integer out of range."))
-        }
-        try _appendValue(validatedValue.description)
+        try _appendValue(encoder.convert(value))
+    }
+    
+    private mutating func _appendDate(_ value:Date) throws {
+        try _appendValue(encoder.convert(value))
+    }
+    
+    private mutating func _appendURL(_ value:URL) throws {
+        try _appendValue(encoder.convert(value))
+    }
+    
+    private mutating func _appendData(_ value:Data) throws {
+        try _appendValue(encoder.convert(value))
     }
     
     private mutating func nextIndexedKey() -> CodingKey {
@@ -64,12 +72,21 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
 
     var codingPath: [any CodingKey] { encoder.codingPath }
 
-    func nestedUnkeyedContainer() -> any UnkeyedEncodingContainer { encoder.unkeyedContainer() }
+    func nestedUnkeyedContainer() -> any UnkeyedEncodingContainer {
+        fatalError()
+        encoder.unkeyedContainer()
+    }
 
     mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey>
-    where NestedKey: CodingKey { encoder.container(keyedBy: NestedKey.self) }
+    where NestedKey: CodingKey {
+        fatalError()
+        encoder.container(keyedBy: NestedKey.self)
+    }
 
-    mutating func superEncoder() -> any Encoder { encoder }
+    mutating func superEncoder() -> any Encoder {
+        fatalError()
+        encoder
+    }
 
     mutating func encodeNil() throws { fatalError() }
 
@@ -102,23 +119,26 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
     mutating func encode(_ value: UInt64) throws { try _appendFixedWidthInteger(value) }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        switch value {
-        case let value as UInt8: try encode(value)
-        case let value as Int8: try encode(value)
-        case let value as UInt16: try encode(value)
-        case let value as Int16: try encode(value)
-        case let value as UInt32: try encode(value)
-        case let value as Int32: try encode(value)
-        case let value as UInt64: try encode(value)
-        case let value as Int64: try encode(value)
-        case let value as Int: try encode(value)
-        case let value as UInt: try encode(value)
-        case let value as Float: try encode(value)
-        case let value as Double: try encode(value)
-        case let value as String: try encode(value)
-        case let value as Bool: try encode(value)
-        //case let value as Date: try _appendValue(.date(value))
+       switch value {
+//        case let value as UInt8: try encode(value)
+//        case let value as Int8: try encode(value)
+//        case let value as UInt16: try encode(value)
+//        case let value as Int16: try encode(value)
+//        case let value as UInt32: try encode(value)
+//        case let value as Int32: try encode(value)
+//        case let value as UInt64: try encode(value)
+//        case let value as Int64: try encode(value)
+//        case let value as Int: try encode(value)
+//        case let value as UInt: try encode(value)
+//        case let value as Float: try encode(value)
+//        case let value as Double: try encode(value)
+//        case let value as String: try encode(value)
+//        case let value as Bool: try encode(value)
+        case let value as Date: try _appendDate(value)
+        case let value as URL: try _appendURL(value)
+        case let value as Data: try _appendData(value)
         default:
+            //points to same data reference! 
             var tmpEncoder = _SimpleEncoder(data:encoder.data)
             tmpEncoder.codingPath = encoder.codingPath
             tmpEncoder.codingPath.append(nextIndexedKey())

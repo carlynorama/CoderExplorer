@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SimpleCoder+SingleValueEncoder.swift
 //  
 //
 //  Created by Carlyn Maw on 3/4/24.
@@ -16,17 +16,26 @@ struct SimpleCoderSVEC {
 
 extension SimpleCoderSVEC {
 
-    private func _setValue(_ converted:String) throws { try try encoder.encode(converted, forKey: SVECCodingKey(converted)) }
+    private func _setValue(_ converted:String) throws { try encoder.encode(converted, forKey: SVECCodingKey(converted)) }
 
     private func _setBinaryFloatingPoint(_ value: some BinaryFloatingPoint) throws {
-        try _setValue(Double(value).description)
+        try _setValue(encoder.convert(value))
     }
 
     private func _setFixedWidthInteger(_ value: some FixedWidthInteger) throws {
-        guard let validatedValue = Int(exactly: value) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: "Integer out of range."))
-        }
-        try _setValue(validatedValue.description)
+        try _setValue(encoder.convert(value))
+    }
+    
+    private func _setDate(_ value:Date) throws {
+        try _setValue(encoder.convert(value))
+    }
+    
+    private func _setURL(_ value:URL) throws {
+        try _setValue(encoder.convert(value))
+    }
+    
+    private func _setData(_ value:Data) throws {
+        try _setValue(encoder.convert(value))
     }
     
     private struct SVECCodingKey: CodingKey {
@@ -87,22 +96,28 @@ extension SimpleCoderSVEC: SingleValueEncodingContainer {
 
     func encode<T>(_ value: T) throws where T: Encodable {
         switch value {
-        case let value as UInt8: try encode(value)
-        case let value as Int8: try encode(value)
-        case let value as UInt16: try encode(value)
-        case let value as Int16: try encode(value)
-        case let value as UInt32: try encode(value)
-        case let value as Int32: try encode(value)
-        case let value as UInt64: try encode(value)
-        case let value as Int64: try encode(value)
-        case let value as Int: try encode(value)
-        case let value as UInt: try encode(value)
-        case let value as Float: try encode(value)
-        case let value as Double: try encode(value)
-        case let value as String: try encode(value)
-        case let value as Bool: try encode(value)
-        //case let value as Date: try _setValue(.date(value))
-        default: try value.encode(to: encoder)
+        
+//        case let value as UInt8: try encode(value)
+//        case let value as Int8: try encode(value)
+//        case let value as UInt16: try encode(value)
+//        case let value as Int16: try encode(value)
+//        case let value as UInt32: try encode(value)
+//        case let value as Int32: try encode(value)
+//        case let value as UInt64: try encode(value)
+//        case let value as Int64: try encode(value)
+//        case let value as Int: try encode(value)
+//        case let value as UInt: try encode(value)
+//        case let value as Float: try encode(value)
+//        case let value as Double: try encode(value)
+//        case let value as String: try encode(value)
+//        case let value as Bool: try encode(value)
+        
+        case let value as Date: try _setDate(value)
+        case let value as URL: try _setURL(value)
+        case let value as Data: try _setData(value)
+        default:
+//            fatalError()
+            try value.encode(to: encoder)
         }
     }
 }

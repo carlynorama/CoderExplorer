@@ -81,7 +81,7 @@ That got ripped apart and turned into the first LineCoder. Then I found the one 
 
 
 
-### More
+### More To Read
 - https://forums.swift.org/t/how-can-i-encode-a-struct-to-data-binary/68652
 - String.propertyListFromStringsFileFormat() 
 - Dictionary.descriptionInStringsFileFormat
@@ -95,3 +95,9 @@ That got ripped apart and turned into the first LineCoder. Then I found the one 
 - https://github.com/swiftcsv/SwiftCSV (does not use custom encoder)
 - - https://github.com/apple/swift-protobuf/blob/main/Sources/SwiftProtobuf/JSONEncoder.swift (a distraction)
 - https://github.com/apple/swift/blob/ec0f85635d433bcff87a6545ffdcd33d860c0d48/stdlib/public/core/EmbeddedStubs.swift#L195
+- https://www.donnywals.com/writing-custom-json-encoding-and-decoding-logic/
+- https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
+- https://forums.swift.org/t/nestedcontainer-in-keyedencodingcontainer-and-unkeyedencodingcontainer-should-be-throwing/11566/9
+- https://forums.swift.org/t/proper-way-to-structure-containers-in-new-coders/11712/2
+- https://forums.swift.org/t/se-0295-codable-synthesis-for-enums-with-associated-values/42408/15
+- https://forums.swift.org/t/introducing-metacodable-a-collection-of-macros-helping-with-custom-codable-implementation-generation/65731

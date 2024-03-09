@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SimpleCoder+KeyedEncoder.swift
 //  
 //
 //  Created by Carlyn Maw on 3/4/24.
@@ -25,15 +25,26 @@ extension  SimpleEncoderKEC {
 //    }
 
     private func _insertBinaryFloatingPoint(_ value: some BinaryFloatingPoint, atKey key: Key) throws {
-        try _insertValue(Double(value).description, atKey: key)
+        try _insertValue(encoder.convert(value), atKey: key)
     }
 
 
     private func _insertFixedWidthInteger(_ value: some FixedWidthInteger, atKey key: Key) throws {
-        guard let validatedValue = Int(exactly: value) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: "Integer out of range."))
-        }
-        try _insertValue(validatedValue.description, atKey: key)
+        try _insertValue(encoder.convert(value), atKey: key)
+    }
+    
+    private func _insertDate(_ value: Date, atKey key:Key) throws {
+        try _insertValue(encoder.convert(value), atKey: key)
+    }
+    
+    private func _insertURL(_ value: URL, atKey key:Key) throws {
+        try _insertValue(encoder.convert(value), atKey: key)
+    }
+    
+    private func _insertData(_ value: Data, atKey key:Key) throws {
+        let result = try encoder.convert(value)
+        print(result)
+        try _insertValue(result, atKey: key)
     }
 }
 
@@ -84,23 +95,28 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         switch value {
-        case let value as UInt8: try encode(value, forKey: key)
-        case let value as Int8: try encode(value, forKey: key)
-        case let value as UInt16: try encode(value, forKey: key)
-        case let value as Int16: try encode(value, forKey: key)
-        case let value as UInt32: try encode(value, forKey: key)
-        case let value as Int32: try encode(value, forKey: key)
-        case let value as UInt64: try encode(value, forKey: key)
-        case let value as Int64: try encode(value, forKey: key)
-        case let value as Int: try encode(value, forKey: key)
-        case let value as UInt: try encode(value, forKey: key)
-        case let value as Float: try encode(value, forKey: key)
-        case let value as Double: try encode(value, forKey: key)
-        case let value as String: try encode(value, forKey: key)
-        case let value as Bool: try encode(value, forKey: key)
-        //catches too much for now.
-        //case let value as CustomStringConvertible: try _insertValue(value, atKey: key)
+//        case let value as UInt8: try encode(value, forKey: key)
+//        case let value as Int8: try encode(value, forKey: key)
+//        case let value as UInt16: try encode(value, forKey: key)
+//        case let value as Int16: try encode(value, forKey: key)
+//        case let value as UInt32: try encode(value, forKey: key)
+//        case let value as Int32: try encode(value, forKey: key)
+//        case let value as UInt64: try encode(value, forKey: key)
+//        case let value as Int64: try encode(value, forKey: key)
+//        case let value as Int: try encode(value, forKey: key)
+//        case let value as UInt: try encode(value, forKey: key)
+//        case let value as Float: try encode(value, forKey: key)
+//        case let value as Double: try encode(value, forKey: key)
+//        case let value as String: try encode(value, forKey: key)
+//        case let value as Bool: try encode(value, forKey: key)
+        case let value as Date: try _insertDate(value, atKey: key)
+        case let value as URL: try _insertURL(value, atKey: key)
+        case let value as Data: try _insertData(value, atKey: key)
+//        //catches too much for now.
+//        //case let value as CustomStringConvertible: try _insertValue(value, atKey: key)
+//            
         default:
+            //points to same data reference! 
             var tmpEncoder = _SimpleEncoder(data:encoder.data)
             tmpEncoder.codingPath.append(key)
             try value.encode(to: tmpEncoder)
@@ -109,11 +125,23 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
 
     mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key)
         -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey
-    { encoder.container(keyedBy: NestedKey.self) }
+    {
+        fatalError()
+        encoder.container(keyedBy: NestedKey.self)
+    }
 
-    mutating func nestedUnkeyedContainer(forKey key: Key) -> any UnkeyedEncodingContainer { encoder.unkeyedContainer() }
+    mutating func nestedUnkeyedContainer(forKey key: Key) -> any UnkeyedEncodingContainer {
+        fatalError()
+        encoder.unkeyedContainer()
+    }
 
-    mutating func superEncoder() -> any Encoder { encoder }
+    mutating func superEncoder() -> any Encoder {
+        fatalError()
+        encoder
+    }
 
-    mutating func superEncoder(forKey key: Key) -> any Encoder { encoder }
+    mutating func superEncoder(forKey key: Key) -> any Encoder {
+        fatalError()
+        encoder
+    }
 }
