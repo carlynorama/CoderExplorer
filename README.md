@@ -4,6 +4,8 @@ A place to finally learn about custom encoders and decoders.
 
 ## References
 
+- https://www.whynotestflight.com/excuses/how-do-custom-encoders-work/
+
 To work on this package I primarily used 3 resources, duplicating them line by line. No copy-paste. Xcode does a ton of providing missing code to be in compliance so that was less tedious than one may think. Some of the variable names will be changed from the example code. This is on purpose to make sure I don't start copy pasting and that I really do under stand what is connected to what.
 
 - https://forums.swift.org/t/future-of-codable-and-json-coders-in-swift-6-hoping-for-a-rework/69542
@@ -66,18 +68,20 @@ A beast, but very instructive. Started from [line 226](https://github.com/apple/
     }
 ```
 
-That got ripped apart and turned into the first LineCoder. Then I found the one in FoundationEssentials and liked the way it had been reworked.
+That got ripped apart and turned into the first LineCoder. Then I found the one in FoundationEssentials and liked the way it had been reworked so tore everything out again. 
 
-### Other Apple Coders
+### Other Apple Encoders on GitHub
 
 - https://github.com/search?q=org%3Aapple%20mutating%20func%20nestedContainer%3CNestedKey%3E(keyedBy%20keyType%3A%20NestedKey.Type%2C%20forKey%20key%3A%20Key)%20-%3E%20KeyedEncodingContainer%3CNestedKey%3E%20where%20NestedKey&type=code
 - https://github.com/apple/swift-openapi-runtime/tree/release/0.2.x/Sources/OpenAPIRuntime/URICoder
 - https://github.com/apple/swift-http-structured-headers/blob/main/Sources/StructuredFieldValues/
 - https://github.com/apple/swift-http-structured-headers/
 
+-  This one is extra interesting because its encoded straight to an output stream. No stored data at all.  https://github.com/apple/swift-package-manager/blob/a5f9b6cf7ceeea13b7db828b5eece2ca9e0df445/Sources/Commands/Utilities/PlainTextEncoder.swift
 
 
-### More
+
+### More To Read
 - https://forums.swift.org/t/how-can-i-encode-a-struct-to-data-binary/68652
 - String.propertyListFromStringsFileFormat() 
 - Dictionary.descriptionInStringsFileFormat
@@ -90,4 +94,10 @@ That got ripped apart and turned into the first LineCoder. Then I found the one 
 - https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
 - https://github.com/swiftcsv/SwiftCSV (does not use custom encoder)
 - - https://github.com/apple/swift-protobuf/blob/main/Sources/SwiftProtobuf/JSONEncoder.swift (a distraction)
-
+- https://github.com/apple/swift/blob/ec0f85635d433bcff87a6545ffdcd33d860c0d48/stdlib/public/core/EmbeddedStubs.swift#L195
+- https://www.donnywals.com/writing-custom-json-encoding-and-decoding-logic/
+- https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
+- https://forums.swift.org/t/nestedcontainer-in-keyedencodingcontainer-and-unkeyedencodingcontainer-should-be-throwing/11566/9
+- https://forums.swift.org/t/proper-way-to-structure-containers-in-new-coders/11712/2
+- https://forums.swift.org/t/se-0295-codable-synthesis-for-enums-with-associated-values/42408/15
+- https://forums.swift.org/t/introducing-metacodable-a-collection-of-macros-helping-with-custom-codable-implementation-generation/65731
