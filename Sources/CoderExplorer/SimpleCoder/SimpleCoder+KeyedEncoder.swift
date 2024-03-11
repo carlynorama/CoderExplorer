@@ -54,7 +54,8 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
     }
     
     mutating func encodeNil(forKey key: Key) throws {
-        fatalError()
+        //for now... do nothing.
+        //try _insertValue("NULL", atKey: key)
     }
     
     mutating func encode(_ value: Bool, forKey key: Key) throws {
@@ -94,6 +95,7 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
     mutating func encode(_ value: UInt64, forKey key: Key) throws { try _insertFixedWidthInteger(value, atKey: key) }
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
+        print("encode<T> Keyed:", value)
         switch value {
 //        case let value as UInt8: try encode(value, forKey: key)
 //        case let value as Int8: try encode(value, forKey: key)
@@ -113,12 +115,11 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
         case let value as URL: try _insertURL(value, atKey: key)
         case let value as Data: try _insertData(value, atKey: key)
 //        //catches too much for now.
-//        //case let value as CustomStringConvertible: try _insertValue(value, atKey: key)
+//       case let value as CustomStringConvertible: try _insertValue(value, atKey: key)
 //            
         default:
             //points to same data reference! 
-            var tmpEncoder = _SimpleEncoder(data:encoder.data)
-            tmpEncoder.codingPath.append(key)
+            var tmpEncoder = encoder.getEncoder(forKey: key, withData: encoder.data)
             try value.encode(to: tmpEncoder)
         }
     }
@@ -126,22 +127,26 @@ extension SimpleEncoderKEC:KeyedEncodingContainerProtocol {
     mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key)
         -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey
     {
-        fatalError()
-        encoder.container(keyedBy: NestedKey.self)
+        //print("nestedKey:\(key.stringValue)")
+        var tmpEncoder =  encoder.getEncoder(forKey: key, withData: encoder.data)
+        return tmpEncoder.container(keyedBy: NestedKey.self)
+        
     }
 
     mutating func nestedUnkeyedContainer(forKey key: Key) -> any UnkeyedEncodingContainer {
         fatalError()
-        encoder.unkeyedContainer()
+        var tmpEncoder =  encoder.getEncoder(forKey: key, withData: encoder.data)
+        return tmpEncoder.unkeyedContainer()
+        
     }
 
     mutating func superEncoder() -> any Encoder {
-        fatalError()
+        //TODO: Push this lack of nested key?
         encoder
     }
 
     mutating func superEncoder(forKey key: Key) -> any Encoder {
-        fatalError()
-        encoder
+        let tmpEncoder =  encoder.getEncoder(forKey: key, withData: encoder.data)
+        return tmpEncoder
     }
 }

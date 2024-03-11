@@ -31,25 +31,35 @@ final class SimpleCoderData<Value> {
 }
 
 struct _SimpleEncoder {
-    var data:SimpleCoderData<[String: String]>
+    typealias DataStore = SimpleCoderData<[String: String]>
+    var data:DataStore
     var codingPath: [CodingKey] = []
+
+    
     
     var value:String {
+        print(data.storage)
         var lines = data.storage.map { key, value in
-            if key.isEmpty || key.contains("keyless"){
-                print("found a keyless with key \(key)")
-                return "\(value)"
+            var mKey = key
+            
+            if mKey.contains("keyless") {
+                print("\(key)")
+                mKey = cleanKey(mKey)
+            }
+            
+            if mKey.isEmpty {
+              return "\(value)"
             } else {
-                return "\(key):\(value)"
+              return "\(mKey):\(value)"
             }
         }
         lines.sort()
-        lines.insert(contentsOf: processUserInfo(), at: 0)
         return lines.joined(separator: "/")
     }
     
-    func processUserInfo() -> [String] {
-        return []
+    func cleanKey(_ key:String, keyDelimiter:String.Element = ".") -> String {
+        let split = key.split(whereSeparator: { $0 == keyDelimiter }).filter({ !$0.contains("keyless")})
+        return split.joined(separator: String(keyDelimiter))
     }
 }
 
@@ -73,6 +83,15 @@ extension _SimpleEncoder {
     func specialEncoder(for value: some Encodable) throws {
         var container = singleValueContainer()
         try container.encode(value)
+    }
+    
+    func getEncoder(forKey key:CodingKey?, withData passedInData:DataStore) -> Self {
+        var tmp = _SimpleEncoder(data:passedInData)
+        tmp.codingPath = self.codingPath
+        if let key {
+            tmp.codingPath.append(key)
+        }
+        return tmp
     }
 }
 
@@ -124,8 +143,6 @@ extension _SimpleEncoder:Encoder {
     func singleValueContainer() -> SingleValueEncodingContainer {
         SimpleCoderSVEC(encoder: self)
     }
-    
-    
 }
 
 
