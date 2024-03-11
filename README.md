@@ -5,7 +5,7 @@ A place to finally learn about custom encoders and decoders.
 ## References
 
 - https://www.whynotestflight.com/excuses/how-do-custom-encoders-work/
-- https://www.whynotestflight.com/excuses/...
+- https://www.whynotestflight.com/excuses/and-what-can-i-make-a-custom-encoder-do/
 
 To work on this package I primarily used 3 resources, duplicating them line by line. No copy-paste. Xcode does a ton of providing missing code to be in compliance so that was less tedious than one may think. Some of the variable names will be changed from the example code. This is on purpose to make sure I don't start copy pasting and that I really do under stand what is connected to what.
 
