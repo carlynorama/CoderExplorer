@@ -5,9 +5,11 @@ A place to finally learn about custom encoders and decoders.
 ## References
 
 - https://www.whynotestflight.com/excuses/how-do-custom-encoders-work/
+- https://www.whynotestflight.com/excuses/...
 
 To work on this package I primarily used 3 resources, duplicating them line by line. No copy-paste. Xcode does a ton of providing missing code to be in compliance so that was less tedious than one may think. Some of the variable names will be changed from the example code. This is on purpose to make sure I don't start copy pasting and that I really do under stand what is connected to what.
 
+### Future Codable Directions
 - https://forums.swift.org/t/future-of-codable-and-json-coders-in-swift-6-hoping-for-a-rework/69542
 - https://forums.swift.org/t/serialization-in-swift/46641
 
@@ -101,3 +103,14 @@ That got ripped apart and turned into the first LineCoder. Then I found the one 
 - https://forums.swift.org/t/proper-way-to-structure-containers-in-new-coders/11712/2
 - https://forums.swift.org/t/se-0295-codable-synthesis-for-enums-with-associated-values/42408/15
 - https://forums.swift.org/t/introducing-metacodable-a-collection-of-macros-helping-with-custom-codable-implementation-generation/65731
+- https://forums.swift.org/t/how-does-automatic-codable-compliance-work-for-the-sake-of-extending-it/25933/3
+- https://forums.swift.org/t/codable-requirements-mystery/68690
+- tests: https://github.com/apple/swift/tree/babf807ccf38ef6c0e413694e41b7cf6c787bcd9/test/refactoring/AddCodableImplementation
+
+
+
+- https://github.com/search?q=org%3AApple%20.nestedContainer(keyedBy%3A&type=code
+- https://github.com/search?q=org%3AApple%20.nestedUnkeyedContainer(forKey&type=code
+
+- https://flight.school/books/codable/
+- https://forums.swift.org/t/codable-enums-associated-value-is-unexpectedly-using-positional-name/63569/

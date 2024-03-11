@@ -52,6 +52,12 @@ extension SimpleCoderSVEC {
         }
         
         init(_ forValue:String) {
+            self.stringValue = "keyless\(UUID())"
+            self.intValue = nil
+        }
+        
+        init(_ forValue:String, replacing bad:String, with good:String) {
+            let cleaned = forValue.replacingOccurrences(of: bad, with: good)
             self.stringValue = "keyless_\(forValue)"
             self.intValue = nil
         }
@@ -62,9 +68,7 @@ extension SimpleCoderSVEC: SingleValueEncodingContainer {
 
     var codingPath: [any CodingKey] { encoder.codingPath }
 
-    func encodeNil() throws {
-        // Nil is encoded as no value.
-    }
+    func encodeNil() throws { try _setValue("NULL") }
 
     func encode(_ value: Bool) throws { try _setValue("\(value)") }
 
@@ -95,6 +99,7 @@ extension SimpleCoderSVEC: SingleValueEncodingContainer {
     func encode(_ value: UInt64) throws { try _setFixedWidthInteger(value) }
 
     func encode<T>(_ value: T) throws where T: Encodable {
+        print("encode<T> SV:", value)
         switch value {
         
 //        case let value as UInt8: try encode(value)
@@ -116,7 +121,6 @@ extension SimpleCoderSVEC: SingleValueEncodingContainer {
         case let value as URL: try _setURL(value)
         case let value as Data: try _setData(value)
         default:
-//            fatalError()
             try value.encode(to: encoder)
         }
     }

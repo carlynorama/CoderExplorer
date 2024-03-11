@@ -72,23 +72,29 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
 
     var codingPath: [any CodingKey] { encoder.codingPath }
 
-    func nestedUnkeyedContainer() -> any UnkeyedEncodingContainer {
+    mutating func nestedUnkeyedContainer() -> any UnkeyedEncodingContainer {
         fatalError()
-        encoder.unkeyedContainer()
+        let tmpEncoder =  encoder.getEncoder(forKey: nextIndexedKey(), withData: encoder.data)
+        return tmpEncoder.unkeyedContainer()
     }
 
     mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey>
     where NestedKey: CodingKey {
         fatalError()
-        encoder.container(keyedBy: NestedKey.self)
+        var tmpEncoder =  encoder.getEncoder(forKey: nextIndexedKey(), withData: encoder.data)
+        return tmpEncoder.container(keyedBy: NestedKey.self)
     }
 
     mutating func superEncoder() -> any Encoder {
-        fatalError()
-        encoder
+        let tmpEncoder =  encoder.getEncoder(forKey: nextIndexedKey(), withData: encoder.data)
+        return tmpEncoder
     }
 
-    mutating func encodeNil() throws { fatalError() }
+    mutating func encodeNil() throws {
+        //nothing seems to land here. All going through SVEC.
+        fatalError()
+        //try _appendValue("NULL")
+    }
 
     mutating func encode(_ value: Bool) throws { try _appendValue("\(value)") }
 
@@ -119,6 +125,7 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
     mutating func encode(_ value: UInt64) throws { try _appendFixedWidthInteger(value) }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
+        print("encode<T> Unkeyed:", value)
        switch value {
 //        case let value as UInt8: try encode(value)
 //        case let value as Int8: try encode(value)
@@ -139,9 +146,7 @@ extension SimpleCoderUEC: UnkeyedEncodingContainer {
         case let value as Data: try _appendData(value)
         default:
             //points to same data reference! 
-            var tmpEncoder = _SimpleEncoder(data:encoder.data)
-            tmpEncoder.codingPath = encoder.codingPath
-            tmpEncoder.codingPath.append(nextIndexedKey())
+           var tmpEncoder = encoder.getEncoder(forKey: nextIndexedKey(), withData: encoder.data)
             try value.encode(to: tmpEncoder)
         }
     }
